@@ -1,11 +1,11 @@
-\title{Homework 1 - Group 34}
+\title{Homework 2 - Group 34}
 
 \author{
         Sean Caster,
         Joshua Sean Bell,
         Tarren Engberg
 }
-\date{April 15th, 2018}
+\date{May 6th, 2018}
 
 \documentclass[titlepage,draftclsnofoot,onecolumn]{article}
 \usepackage{geometry}
@@ -15,68 +15,33 @@
 \maketitle
 
 \begin{abstract}
-  Group 34 presents the commands used in order to set up the Yocto version of Linux running in a qemu virtual machine on the OS2 OSU server.
+  Group 34 describes their experience implementing the Elevator algorithm in the Yocto version of Linux running in a qemu virtual machine on the OS2 Oregon State University server.
 \end{abstract}
 
 \section*{Write Up}
 Group 34 commands used, flag definitions and question answers.
 
-\paragraph{Outline}
+\paragraph{Design}
 
-\begin{itemize}
-  \item A log of commands used to perform the requested actions.
-  \begin{itemize}
-    \item (in linux-yocto...) \texttt{make menuconfig}
-    \item (in menuconfig) \texttt{General setup->local version = yocto-standardg34hw1}
-    \item saved output as \texttt{.config}
-    \item (in linux-yocto...) \texttt{make -j4 all}
-    \item \texttt{source envivronment-setup-i586-poky-linux.csh}
-    \item \texttt{qemu-system-i386 -gdb tcp::5534 -S -nographic -kernel linux-yocto-3.19/arch/x86/boot/bzImage -drive file=core-image-lsb-sdk-qemux86.ext4,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug".}
-    \item (in another shell from linux-yocto-3.19) \texttt{gdb -tui vmlinux}
-    \item (in gdb) \texttt{target remote :5534}
-    \item \texttt{continue}
-    \item \texttt{uname=root}
-    \item \texttt{uname -r outputs yocto-standardg34hw1 and kernel-version is confirmed}
+\paragraph{Version Control Log}
 
-  \end{itemize}
-  \item An explanation of each and every flag in the listed qemu command-line
-  \begin{itemize}
-    \item \texttt{-gdb tcp:5534} allows qemu to be used with a debugger on port 5534
-    \item \texttt{-S} keeps the CPU from running at startup
-    \item \texttt{-nographic} disables qemu's graphical output
-    \item \texttt{-kernel} tells qemu to use the given kernel image
-    \item \texttt{-drive} defines a new drive
-    \item \texttt{-enable-kvm} starts qemu in kernel virtual machine
-    \item \texttt{-net none} tells qemu that no network devices should be configured
-    \item \texttt{-usb} enables the USB driver
-    \item \texttt{-localtime} to start at the current local time
-    \item \texttt{--no-reboot} tells qemu to exit rather than rebooting
-    \item \texttt{-append} indicates the command line to use
-  \end{itemize}
-  \item The main purpose of this assignment was to get the Yocto version of Linux running in a Virtual Machine on the OS2 server.
-  \item The way we ensured that our solution was correct was to run Yocto and view shell output to verify it was running.
-  \item We learned about qemu and Yocto, neither of which any of our team had heard of before.
-  \item Version control log (formatted as a table)
-  \newline
-  \texttt{
-  \begin{tabular}{|r|l|}
-    \hline
-    Commit: & ffefc7486e0f207ddbee6335ff4d33ac756e735e \\ \cline{2-2}
-    Author: & Tarren Engberg engbergt@os2.engr.oregonstate.edu \\ \cline{2-2}
-    Date: & Sat Apr 14 13:51:27 2018 -0700 \\ \cline{2-2}
-    Message: & first commit \\
-    \hline
-  \end{tabular}
-  }
-  \item Work Log
-  \begin{itemize}
-    \item We first logged into the OS2 server and pulled v3.19 of Yocto down to our group 34 folder.
-    \item We then switched the tag to v3.19.2
-    \item We ran the commands as listed above in the Command Log to get Yocto up and running in qemu.
-    \item We realized that we hadn't initialized our own working repo, so we did that and made our first commit, after the kernal was up and running.
-  \end{itemize}
+\paragraph{Work Log}
 
-\end{itemize}
+\paragraph{Main Point of the Assignment}
+
+\paragraph{Our Approach}
+
+\paragraph{Solution Correctness}
+
+\paragraph{What We Learned}
+
+\paragraph{TA Steps to Follow}
+
+\begin{enumerate}
+  \item Step 1
+  \item Step 2 ..
+\end{enumerate}
+
 
 
 \end{document}
