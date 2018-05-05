@@ -22,14 +22,17 @@
 Group 34 commands used, flag definitions and question answers.
 
 \paragraph{Design}
+The challenging part of this assignment is getting the Linux kernal to recognize and use our scheduler file rather than the default scheduler file or any of the other options included with Yocto. Our plan is to first figure out where the current IO scheduler files are located, then to copy one of them and try to get the kernal to recognize the copy and then finally to update the copied file to implement CLOOK and test to be sure that it is running.
 
 \paragraph{Version Control Log}
 
 \paragraph{Work Log}
+We first looked for a way to select which elevator algorithm to use as a command line argument and found that we needed to change the 'vch' option to 'dch'. We then looked for a way to switch the boot loader to use an ioscheduler of our choosing rather than the default. We looked around and found the .config file and switched the setting from [cfq] over to [noop] and recompiled just to see if it would work. The next step was to figure out how to get it to detect a file of our own. We updated the kconfig.iosched to include information about our “file” (which we hadn’t created yet). We basically made an alias for the already existing file noop to see if we can get it specified through our config changes. After recompiling the kernal we found that our new alias scheduler was not showing up in the config panel. We met with Kevin McGrath and he helped us realize that its possible that our alias scheduler was being shown and displayed but since we didn't change any of the names in the file itself, it would likely be showing up as the original name. We then changed all the internal function names from noop to sstf. Once we did this we were able to see the option show up in the config panel after recompiling. Once we were able to get our scheduler recognized and selected we then edited the noop code to include updated functionality in the sstf_add_request function as described below in the approach section.
 
 \paragraph{Main Point of the Assignment}
 
 \paragraph{Our Approach}
+We found that there is a Linux kernal system macro called "list_for_each" which 
 
 \paragraph{Solution Correctness}
 
