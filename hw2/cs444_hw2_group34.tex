@@ -58,14 +58,17 @@ The main point of the assignment seems to be to help us become more familiar wit
 \end{itemize}
 
 \paragraph{Solution Correctness}
+In order to test our solution, we created a print statement that we used to debug the scheduler. This print statement was executed every time a request is added to the queue so that we could tell if it worked correctly. 
 
 \paragraph{What We Learned}
 We learned a great deal about both I/O scheduling in Linux and about the Linux kernel itself. It was very interesting to see how the Linux kernel implements data structures, namely linked lists. Being able to use functionality that the kernel has already implemented actually ended up making modifying the scheduler the easier part of this assignment with locating and switching the default scheduler being the more difficult part. It took a lot of time and perseverance to figure out how to make the necessary changes to force the VM to use our custom I/O scheduler. The biggest thing gained from this assignment was familiarity of the Linux kernel.
 \paragraph{TA Steps to Follow}
 
 \begin{enumerate}
-  \item Step 1
-  \item Step 2 ..
+  \item Uncomment the debugging kprint statement in the sstf code
+  \item May need to change the default dmesg settings in order to see the output of the kprint statement since it's at the KERN\_DEBUG level
+  \item When the scheduler is operating, analyze the output of the print statement to ensure correctness
+  \item Analysis of the code will reveal the correct changes were made
 \end{enumerate}
 
 
