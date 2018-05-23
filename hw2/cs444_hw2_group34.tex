@@ -25,24 +25,50 @@ Group 34 commands used, flag definitions and question answers.
 The challenging part of this assignment is getting the Linux kernal to recognize and use our scheduler file rather than the default scheduler file or any of the other options included with Yocto. Our plan is to first figure out where the current IO scheduler files are located, then to copy one of them and try to get the kernal to recognize the copy and then finally to update the copied file to implement CLOOK and test to be sure that it is running.
 
 \paragraph{Version Control Log}
+\texttt{
+\begin{tabular}{|r|l|}
+  \hline
+  Commit: & 69bc470af5ef317c81b4010222cd7ba7ee866406 \\ \cline{2-2}
+  Author: & Tarren Engberg engbergt@os2.engr.oregonstate.edu \\ \cline{2-2}
+  Date: & Sun May 6 19:37:06 2018 -0700 \\ \cline{2-2}
+  Message: & assignment two, changing the ioscheduler complete. \\
+  \hline
+  \hline
+  Commit: & ffefc7486e0f207ddbee6335ff4d33ac756e735e \\ \cline{2-2}
+  Author: & Tarren Engberg engbergt@os2.engr.oregonstate.edu \\ \cline{2-2}
+  Date: & Sat Apr 14 13:51:27 2018 -0700 \\ \cline{2-2}
+  Message: & first commit \\
+  \hline
+\end{tabular}
+}
 
 \paragraph{Work Log}
-We first looked for a way to select which elevator algorithm to use as a command line argument and found that we needed to change the 'vch' option to 'dch'. We then looked for a way to switch the boot loader to use an ioscheduler of our choosing rather than the default. We looked around and found the .config file and switched the setting from [cfq] over to [noop] and recompiled just to see if it would work. The next step was to figure out how to get it to detect a file of our own. We updated the kconfig.iosched to include information about our “file” (which we hadn’t created yet). We basically made an alias for the already existing file noop to see if we can get it specified through our config changes. After recompiling the kernal we found that our new alias scheduler was not showing up in the config panel. We met with Kevin McGrath and he helped us realize that its possible that our alias scheduler was being shown and displayed but since we didn't change any of the names in the file itself, it would likely be showing up as the original name. We then changed all the internal function names from noop to sstf. Once we did this we were able to see the option show up in the config panel after recompiling. Once we were able to get our scheduler recognized and selected we then edited the noop code to include updated functionality in the sstf_add_request function as described below in the approach section.
+We first looked for a way to select which elevator algorithm to use as a command line argument and found that we needed to change the 'vch' option to 'dch'. We then looked for a way to switch the boot loader to use an ioscheduler of our choosing rather than the default. We looked around and found the .config file and switched the setting from [cfq] over to [noop] and recompiled just to see if it would work. The next step was to figure out how to get it to detect a file of our own. We updated the kconfig.iosched to include information about our “file” (which we hadn’t created yet). We basically made an alias for the already existing file noop to see if we can get it specified through our config changes. After recompiling the kernal we found that our new alias scheduler was not showing up in the config panel. We met with Kevin McGrath and he helped us realize that its possible that our alias scheduler was being shown and displayed but since we didn't change any of the names in the file itself, it would likely be showing up as the original name. We then changed all the internal function names from noop to sstf. Once we did this we were able to see the option show up in the config panel after recompiling. Once we were able to get our scheduler recognized and selected we then edited the noop code to include updated functionality in the sstf\_add\_request function as described below in the approach section.
 
 \paragraph{Main Point of the Assignment}
+The main point of the assignment seems to be to help us become more familiar with the Linux kernel and the functionality that it provides. By locating and modifying the scheduler, we discovered a lot about the kernel that we did not know before. It also taught us about the scheduler itself and the concepts around the way each of the main schedulers operate. Because we had to go through a lot a of trial and error, we ended up learning more than we would have if we just read about schedulers and the kernel in a book.
 
 \paragraph{Our Approach}
-We found that there is a Linux kernal system macro called "list_for_each" which 
+\begin{itemize}
+  \item Figure out how to change which scheduler the kernel uses
+  \item Make use of current I/O schedulers to create our own
+  \item Modify the config file and recompile
+  \item Make use of linked lists implemented by the kernel to write elevator algorithm for CLOOK scheduler
+  
+\end{itemize}
 
 \paragraph{Solution Correctness}
+In order to test our solution, we created a print statement that we used to debug the scheduler. This print statement was executed every time a request is added to the queue so that we could tell if it worked correctly. 
 
 \paragraph{What We Learned}
-
+We learned a great deal about both I/O scheduling in Linux and about the Linux kernel itself. It was very interesting to see how the Linux kernel implements data structures, namely linked lists. Being able to use functionality that the kernel has already implemented actually ended up making modifying the scheduler the easier part of this assignment with locating and switching the default scheduler being the more difficult part. It took a lot of time and perseverance to figure out how to make the necessary changes to force the VM to use our custom I/O scheduler. The biggest thing gained from this assignment was familiarity of the Linux kernel.
 \paragraph{TA Steps to Follow}
 
 \begin{enumerate}
-  \item Step 1
-  \item Step 2 ..
+  \item Uncomment the debugging kprint statement in the sstf code
+  \item May need to change the default dmesg settings in order to see the output of the kprint statement since it's at the KERN\_DEBUG level
+  \item When the scheduler is operating, analyze the output of the print statement to ensure correctness
+  \item Analysis of the code will reveal the correct changes were made
 \end{enumerate}
 
 
