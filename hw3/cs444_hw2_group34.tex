@@ -15,30 +15,40 @@
 \maketitle
 
 \begin{abstract}
-  Group 34 describes their experience implementing the Elevator algorithm in the Yocto version of Linux running in a qemu virtual machine on the OS2 Oregon State University server.
+  Group 34 describes their experience implementing a RAM disk driver which presents a chunk of memory as a read/write encrypted block device for the Yocto version of Linux running in a qemu virtual machine on the OS2 Oregon State University server.
 \end{abstract}
 
 \section*{Write Up}
 Group 34 commands used, flag definitions and question answers.
 
 \paragraph{Design}
-The challenging part of this assignment is getting the Linux kernal to recognize and use our scheduler file rather than the default scheduler file or any of the other options included with Yocto. Our plan is to first figure out where the current IO scheduler files are located, then to copy one of them and try to get the kernal to recognize the copy and then finally to update the copied file to implement CLOOK and test to be sure that it is running.
+To complete this assignement we have decided to first figure out how to get Linux to recognize and use a module of our choosing. We will start by copying a module file that already exists and using it, as is, to be a new module and figuring out how to get Linux to reccognize and use it. Once we are confident we can get Linux to reccognize and use a module of our creation, we will then build a module with the starting point of the SBD file and editing it to use Linux built in Crypto API.
 
 \paragraph{Version Control Log}
 
 \paragraph{Work Log}
-We first looked for a way to select which elevator algorithm to use as a command line argument and found that we needed to change the 'vch' option to 'dch'. We then looked for a way to switch the boot loader to use an ioscheduler of our choosing rather than the default. We looked around and found the .config file and switched the setting from [cfq] over to [noop] and recompiled just to see if it would work. The next step was to figure out how to get it to detect a file of our own. We updated the kconfig.iosched to include information about our “file” (which we hadn’t created yet). We basically made an alias for the already existing file noop to see if we can get it specified through our config changes. After recompiling the kernal we found that our new alias scheduler was not showing up in the config panel. We met with Kevin McGrath and he helped us realize that its possible that our alias scheduler was being shown and displayed but since we didn't change any of the names in the file itself, it would likely be showing up as the original name. We then changed all the internal function names from noop to sstf. Once we did this we were able to see the option show up in the config panel after recompiling. Once we were able to get our scheduler recognized and selected we then edited the noop code to include updated functionality in the sstf_add_request function as described below in the approach section.
+- We are considering copying the virtio file and pasting some encryption functions in it to modify it to make it read and write encrypted data.
+- We will use module_param(myArgVar, argVarType, Permissions) to send the key to the driver.
+- Ram backed block device driver - we are looking at this file now as a possible starting point for the assignment.
+- Our first step is to copy the Ram backed block device driver and save it as a module to try to get that working.
+- Brd -> yocto/devices/block/brd - we are trying to get this
+- We found a way to force module loading in the configuration. We are trying it to see if it works with our module.
+- We found an online resource detailing how to build modules against a running kernal https://www.kernel.org/doc/Documentation/kbuild/modules.txt
 
 \paragraph{Main Point of the Assignment}
+We believe the main purpose of this assignment is to first get familiarity with Linux module compilation and use. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included tools.
 
 \paragraph{Our Approach}
-We found that there is a Linux kernal system macro called "list_for_each" which
+
 
 \paragraph{Solution Correctness}
 
+
 \paragraph{What We Learned}
 
+
 \paragraph{TA Steps to Follow}
+
 
 \begin{enumerate}
   \item Step 1
