@@ -40,13 +40,13 @@ To complete this assignement we have decided to first figure out how to get Linu
 We believe the main purpose of this assignment is to first get familiarity with Linux module compilation. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included functions.
 
 \paragraph{Our Approach}
-Our approach to this assignment is to basically piece the assignment together using chunks of code found elsewhere in Linux. We started with the sbd.c file and edited the transfer section to encrypt the input and decrypt the output using the supplied Linux Crypto API.
+Our approach to this assignment is to basically piece the assignment together using chunks of code found elsewhere in Linux. We started with the sbd.c file and edited the transfer section to encrypt the input and decrypt the output using the supplied Linux Crypto API. Before we put the block device into a module, we first figured out how to make a module of our own work in the Kernel. Once we got that figured out we were able to move the device to the module and finish development from there.
 
 \paragraph{Solution Correctness}
 
 
 \paragraph{What We Learned}
-
+There were a number of key things that we learned by doing this assignment. By actually working hands-on with the driver, we were able to get a better understanding of how memory allocation works. We also learned a lot about how modules work in the Linux Kernel. Another key concept we learned about is using the Linux Kernel's Crypto API.
 
 \paragraph{TA Steps to Follow}
 
