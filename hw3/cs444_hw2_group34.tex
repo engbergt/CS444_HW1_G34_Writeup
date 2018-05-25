@@ -34,12 +34,13 @@ To complete this assignement we have decided to first figure out how to get Linu
 - Brd -> yocto/devices/block/brd - we are trying to get this
 - We found a way to force module loading in the configuration. We are trying it to see if it works with our module.
 - We found an online resource detailing how to build modules against a running kernal https://www.kernel.org/doc/Documentation/kbuild/modules.txt
+- In order to use the Krypto API, we used the Linux documentation to search for uses of the krypto functions for example, crypto_cipher_encrypt_one. This gave us use cases for the functions needed to encrypt and decrypt the input and output of the driver.
 
 \paragraph{Main Point of the Assignment}
-We believe the main purpose of this assignment is to first get familiarity with Linux module compilation and use. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included tools.
+We believe the main purpose of this assignment is to first get familiarity with Linux module compilation. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included functions.
 
 \paragraph{Our Approach}
-
+Our approach to this assignment is to basically piece the assignment together using chunks of code found elsewhere in Linux. We started with the sbd.c file and edited the transfer section to encrypt the input and decrypt the output using the supplied Linux Crypto API.
 
 \paragraph{Solution Correctness}
 
