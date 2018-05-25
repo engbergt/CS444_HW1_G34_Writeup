@@ -34,12 +34,13 @@ To complete this assignement we have decided to first figure out how to get Linu
 - Brd -> yocto/devices/block/brd - we are trying to get this
 - We found a way to force module loading in the configuration. We are trying it to see if it works with our module.
 - We found an online resource detailing how to build modules against a running kernal https://www.kernel.org/doc/Documentation/kbuild/modules.txt
+- In order to use the Krypto API, we used the Linux documentation to search for uses of the krypto functions for example, crypto_cipher_encrypt_one. This gave us use cases for the functions needed to encrypt and decrypt the input and output of the driver.
 
 \paragraph{Main Point of the Assignment}
-We believe the main purpose of this assignment is to first get familiarity with Linux module compilation and use. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included tools. Aditionally, this assignment provides the opportunity to learn more about block drivers themselves.
+We believe the main purpose of this assignment is to first get familiarity with Linux module compilation. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included functions.
 
 \paragraph{Our Approach}
-Our approach is fairly straightforward. First we used a SBD that we found rather than writing our own driver. Then we used the Crypto API to add encryption and decryption functionallity to the driver. Before we moved the block device to a module, we first figured out how to actually implement a module in the Linux Kernel. One we got that figured out, we could then move the device to the module and finish development from there.
+Our approach to this assignment is to basically piece the assignment together using chunks of code found elsewhere in Linux. We started with the sbd.c file and edited the transfer section to encrypt the input and decrypt the output using the supplied Linux Crypto API. Before we put the block device into a module, we first figured out how to make a module of our own work in the Kernel. Once we got that figured out we were able to move the device to the module and finish development from there.
 
 \paragraph{Solution Correctness}
 
