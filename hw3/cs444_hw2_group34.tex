@@ -28,13 +28,13 @@ To complete this assignement we have decided to first figure out how to get Linu
 
 \paragraph{Work Log}
 - We are considering copying the virtio file and pasting some encryption functions in it to modify it to make it read and write encrypted data.
-- We will use module_param(myArgVar, argVarType, Permissions) to send the key to the driver.
+- We will use module\_param(myArgVar, argVarType, Permissions) to send the key to the driver.
 - Ram backed block device driver - we are looking at this file now as a possible starting point for the assignment.
 - Our first step is to copy the Ram backed block device driver and save it as a module to try to get that working.
 - Brd -> yocto/devices/block/brd - we are trying to get this
 - We found a way to force module loading in the configuration. We are trying it to see if it works with our module.
 - We found an online resource detailing how to build modules against a running kernal https://www.kernel.org/doc/Documentation/kbuild/modules.txt
-- In order to use the Krypto API, we used the Linux documentation to search for uses of the krypto functions for example, crypto_cipher_encrypt_one. This gave us use cases for the functions needed to encrypt and decrypt the input and output of the driver.
+- In order to use the Krypto API, we used the Linux documentation to search for uses of the krypto functions for example, crypto\_cipher\_encrypt\_one. This gave us use cases for the functions needed to encrypt and decrypt the input and output of the driver.
 
 \paragraph{Main Point of the Assignment}
 We believe the main purpose of this assignment is to first get familiarity with Linux module compilation. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included functions.
@@ -52,23 +52,22 @@ There were a number of key things that we learned by doing this assignment. By a
 
 
 \begin{enumerate}
-  \item In linux-yocto-3.19: make menuconfig
-  \item In menuconfig: General setup->local version = yocto-standardg34hw3
-  \item In linux-yocto-3.19: make -j4 all
-  \item source envivronment-setup-i586-poky-linux.csh
-  \item qemu-system-i386 -gdb tcp::5534 -S -nographic -kernel linux-yocto-3.19/arch/x86/boot/bzImage -drive file=core-image-lsb-sdk-qemux86.ext4,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
-  \item In another shell from linux-yocto-3.19: gdb -tui vmlinux
-  \item In gdb: target remote :5534
-  \item continue
-  \item In vm: uname=root
-  \item scp
-  \item insmod
-  \item mkfs
-  \item mount
-  \item cd /mnt/ourmount/lost+found
-  \item less -f /mnt/ourmount
-  \item
-\end{enumerate}
+	\item \texttt{source envivronment-setup-i586-poky-linux.csh}
+	\item In the VM: user name=root
+	\item \texttt{scp [your remote ssh address]:[your filepath]/linux-yocto-3.19/drivers/block/sbd.ko ./}
+	\item \texttt{./insmod}
+	\item \texttt{./mkfs}
+	\item \texttt{./mount}
+	\item \texttt{cd /mnt/ourmount/}
+	\item \texttt{vi hi}
+	\item Write some data to hi in vi
+	\item Save changes to hi and wait for a something like "enc'ing ctxt: ptxt was: " to print to console (this indicates encryption is working)
+	\item \texttt{vi hi} again to see that it has been encrypted
+	\item \texttt{less -f /dev/sbd0}
+	\item \texttt{P 800} (takes you to about the right offset to to see the decrypted data)
+  \end{enumerate}
+  
+  NOTE: steps 10-14 are necessary since accessing 'hi' through vi will load cached memory (meaning our altered disk read which holds the decryption function won't get called); however, less must query our filesystem normally, meaning sbd\_request will be called, leading to an instantiation of sbd\_transfer, where our decryption function lives.
 
 
 
