@@ -64,6 +64,7 @@ There were a number of key things that we learned by doing this assignment. By a
 
 \begin{enumerate}
 	\item \texttt{source envivronment-setup-i586-poky-linux.csh}
+	\item \texttt{monster}
 	\item In the VM: user name=root
 	\item \texttt{scp [your remote ssh address]:[your filepath]/linux-yocto-3.19/drivers/block/sbd.ko ./}
 	\item \texttt{./insmod}
@@ -75,7 +76,7 @@ There were a number of key things that we learned by doing this assignment. By a
 	\item Save changes to hi and wait for a something like "enc'ing ctxt: ptxt was: " to print to console (this indicates encryption is working)
 	\item \texttt{vi hi} again to see that it has been encrypted
 	\item \texttt{less -f /dev/sbd0}
-	\item \texttt{P 800} (takes you to about the right offset to to see the decrypted data)
+	\item \texttt{P 800} (takes you a bit below the offset to to see the decrypted data)
   \end{enumerate}
   
   NOTE: steps 10-14 are necessary since accessing 'hi' through vi will load cached memory (meaning our altered disk read which holds the decryption function won't get called); however, less must query our filesystem normally, meaning sbd\_request will be called, leading to an instantiation of sbd\_transfer, where our decryption function lives.
