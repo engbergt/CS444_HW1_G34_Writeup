@@ -58,3 +58,90 @@ Our approach to this assignment is to basically piece the assignment together us
 
 
 \end{document}
+
+\title{Homework 3 - Group 34}
+
+\author{
+        Sean Caster,
+        Joshua Sean Bell,
+        Tarren Engberg
+}
+\date{May 27th, 2018}
+
+\documentclass[titlepage,draftclsnofoot,onecolumn]{article}
+\usepackage{geometry}
+\geometry{letterpaper, margin=0.75in}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  Group 34 describes their experience implementing a RAM disk driver which presents a chunk of memory as a read/write encrypted block device for the Yocto version of Linux running in a qemu virtual machine on the OS2 Oregon State University server.
+\end{abstract}
+
+\section*{Write Up}
+Group 34 commands used, flag definitions and question answers.
+
+\paragraph{Design}
+To complete this assignement we have decided to first figure out how to get Linux to recognize and use a module of our choosing. We will start by copying a module file that already exists and using it, as is, to be a new module and figuring out how to get Linux to reccognize and use it. Once we are confident we can get Linux to reccognize and use a module of our creation, we will then build a module with the starting point of the SBD file and editing it to use Linux built in Crypto API.
+
+\paragraph{Version Control Log}
+\texttt{
+\begin{tabular}{|r|l|}
+  \hline
+  Commit: & 1467e54235ae27369886bda04c287d5028502211 \\ \cline{2-2}
+  Author: & Tarren Engberg <engbergt@os2.engr.oregonstate.edu> \\ \cline{2-2}
+  Date: & Sun May 27 22:53:58 2018 -0700 \\ \cline{2-2}
+  Message: & Assignment 3 commit \\
+  \hline
+\end{tabular}
+}
+
+
+\paragraph{Work Log}
+- We are considering copying the virtio file and pasting some encryption functions in it to modify it to make it read and write encrypted data.
+- We will use module\_param(myArgVar, argVarType, Permissions) to send the key to the driver.
+- Ram backed block device driver - we are looking at this file now as a possible starting point for the assignment.
+- Our first step is to copy the Ram backed block device driver and save it as a module to try to get that working.
+- Brd -> yocto/devices/block/brd - we are trying to get this
+- We found a way to force module loading in the configuration. We are trying it to see if it works with our module.
+- We found an online resource detailing how to build modules against a running kernal https://www.kernel.org/doc/Documentation/kbuild/modules.txt
+- In order to use the Krypto API, we used the Linux documentation to search for uses of the krypto functions for example, crypto\_cipher\_encrypt\_one. This gave us use cases for the functions needed to encrypt and decrypt the input and output of the driver.
+
+\paragraph{Main Point of the Assignment}
+We believe the main purpose of this assignment is to first get familiarity with Linux module compilation. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included functions.
+
+\paragraph{Our Approach}
+Our approach to this assignment is to basically piece the assignment together using chunks of code found elsewhere in Linux. We started with the sbd.c file and edited the transfer section to encrypt the input and decrypt the output using the supplied Linux Crypto API. Before we put the block device into a module, we first figured out how to make a module of our own work in the Kernel. Once we got that figured out we were able to move the device to the module and finish development from there.
+
+\paragraph{Solution Correctness}
+
+
+\paragraph{What We Learned}
+There were a number of key things that we learned by doing this assignment. By actually working hands-on with the driver, we were able to get a better understanding of how memory allocation works. We also learned a lot about how modules work in the Linux Kernel. Another key concept we learned about is using the Linux Kernel's Crypto API.
+
+\paragraph{TA Steps to Follow}
+
+
+\begin{enumerate}
+	\item \texttt{source envivronment-setup-i586-poky-linux.csh}
+	\item \texttt{monster}
+	\item In the VM: user name=root
+	\item \texttt{scp [your remote ssh address]:[your filepath]/linux-yocto-3.19/drivers/block/sbd.ko ./}
+	\item \texttt{./insmod}
+	\item \texttt{./mkfs}
+	\item \texttt{./mount}
+	\item \texttt{cd /mnt/ourmount/}
+	\item \texttt{vi hi}
+	\item Write some data to hi in vi
+	\item Save changes to hi and wait for a something like "enc'ing ctxt: ptxt was: " to print to console (this indicates encryption is working)
+	\item \texttt{vi hi} again to see that it has been encrypted
+	\item \texttt{less -f /dev/sbd0}
+	\item \texttt{P 800} (takes you a bit below the offset to to see the decrypted data)
+  \end{enumerate}
+  
+  NOTE: steps 10-14 are necessary since accessing 'hi' through vi will load cached memory (meaning our altered disk read which holds the decryption function won't get called); however, less must query our filesystem normally, meaning sbd\_request will be called, leading to an instantiation of sbd\_transfer, where our decryption function lives.
+
+
+
+\end{document}
