@@ -1,6 +1,6 @@
 # Group 34 - Tarren Engberg, Sean Caster, Joshua Sean Bell
 make:
-	pdflatex cs444_hw2_group34.tex
+	pdflatex cs444_hw4_group34.tex
 	-rm -f *.aux
 	-rm -f *.log
 	-rm -f *.toc
