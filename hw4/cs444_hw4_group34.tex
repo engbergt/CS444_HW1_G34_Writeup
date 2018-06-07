@@ -15,14 +15,14 @@
 \maketitle
 
 \begin{abstract}
-  Group 34 describes their experience implementing a RAM disk driver which presents a chunk of memory as a read/write encrypted block device for the Yocto version of Linux running in a qemu virtual machine on the OS2 Oregon State University server.
+  Group 34 describes their experience implementing a SLOB best fit algorithm for memory management in the Linux Yocto environment as well as the experience of making a custom system call to gather SLOB information for analysis of the difference between the default first-fit and the custom best-fit algorithms.
 \end{abstract}
 
 \section*{Write Up}
 Group 34 commands used, flag definitions and question answers.
 
 \paragraph{Design}
-To complete this assignement we have decided to first figure out how to get Linux to recognize and use a module of our choosing. We will start by copying a module file that already exists and using it, as is, to be a new module and figuring out how to get Linux to reccognize and use it. Once we are confident we can get Linux to reccognize and use a module of our creation, we will then build a module with the starting point of the SBD file and editing it to use Linux built in Crypto API.
+To complete this assignement we have decided to first figure out how we want to transform the first-fit algorithm to be a best-fit algorithm. The first-fit algorithm simply looks for the first slot it comes across in the page that is big enough to fit and places the data. The best fit method differs in that it searches the entire page for a large enough slot and also for the smallest of those slots that will fit the data. This best-fit method is designed to pack more densly, lowering the frequency of fragmentation. Once we have developed a modification to first-fit that makes it work as best-fit, we will build in a custom system call that allows us to record an enumeration of the fragmentation in memory so that the two algorithms may be compared for data density.
 
 \paragraph{Version Control Log}
 \texttt{
@@ -36,16 +36,8 @@ To complete this assignement we have decided to first figure out how to get Linu
 \end{tabular}
 }
 
-
 \paragraph{Work Log}
-- We are considering copying the virtio file and pasting some encryption functions in it to modify it to make it read and write encrypted data.
-- We will use module\_param(myArgVar, argVarType, Permissions) to send the key to the driver.
-- Ram backed block device driver - we are looking at this file now as a possible starting point for the assignment.
-- Our first step is to copy the Ram backed block device driver and save it as a module to try to get that working.
-- Brd -> yocto/devices/block/brd - we are trying to get this
-- We found a way to force module loading in the configuration. We are trying it to see if it works with our module.
-- We found an online resource detailing how to build modules against a running kernal https://www.kernel.org/doc/Documentation/kbuild/modules.txt
-- In order to use the Krypto API, we used the Linux documentation to search for uses of the krypto functions for example, crypto\_cipher\_encrypt\_one. This gave us use cases for the functions needed to encrypt and decrypt the input and output of the driver.
+- We started by first examining the slob.c file in the mm directory in the Linux kernal. We found the function slob_alloc and began tracing it through to try and understand how it is working so that we may make modifications.
 
 \paragraph{Main Point of the Assignment}
 We believe the main purpose of this assignment is to first get familiarity with Linux module compilation. Also, this assignment gives us exposure to the Linux Crypto API and gives us experience using the included functions.
