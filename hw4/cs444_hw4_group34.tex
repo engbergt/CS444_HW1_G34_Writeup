@@ -42,19 +42,25 @@ To complete this assignement we have decided to first figure out how we want to 
 }
 
 \paragraph{Work Log}
-- We started by first examining the slob.c file in the mm directory in the Linux kernal. We found the function slob\_alloc and began tracing it through to try and understand how it is working so that we may make modifications to enable best-fit.
+\begin{itemize}
+\item [--]{We started by first examining the slob.c file in the mm directory in the Linux kernal. We found the function slob\_alloc and began tracing it through to try and understand how it is working so that we may make modifications to enable best-fit.}
+\item [--]{We then started writing out our design so that we had a guide to follow for the actual implementation} 
+\item[--] {Next we began implementing the best-fit algorithm by modifying the slob.c file}
+\item[--] {Then we began working on a way of displaying the memory fragmentation through the use of a system call}
+\item[--] {Finally, we created a method of testing our solution so that we can ensure that it works correctly}
+\end{itemize}
 
 \paragraph{Main Point of the Assignment}
 We believe the main purpose of this assignment is to first get familiarity with Linux memory management techniques by discovering how Linux handles memory allocation by default. Since we must alter the process by building in a best-fit solution, we'll need to have a good understanding of how first-fit works in order to effectively alter its fuctionality. Additionaly, we must use a technique to measure fragmentation between the two techniques. This will require us to develope a custom system call and go through the process of recording the fragmentation difference between the two algorithms when in use.
 
 \paragraph{Our Approach}
-Our approach to this assignment is to start with the slob.c file and edit the slob alloc section to use a different fit algorithm depending on a definition we define. When we have tested and found that the new algoritm is infact working, we will add the system call to measure the fragmentation difference and record the difference between the two methods to hopefully find that best-fit packs more densly.
+Our approach to this assignment is to start with the slob.c file and modify the slob alloc section to be able to switch the best-fit and firs-fit algorithms depending on a definition we define. When we have tested and found that the new algoritm is infact working, we will add the system call to measure the fragmentation difference and record the difference between the two methods to hopefully find that best-fit packs more densly.
 
 \paragraph{Solution Correctness}
-The solution correctness of this assignment will be measured by how much more densly the best-fit algorithm is able to pack data when compared to the first-fit algoritm. Our solution will be correct if we are able to show that this is the case since we know that it can be shown that the best-fit algorithm indeed packs more densly in theory.
+The solution correctness of this assignment will be measured by how much more densly the best-fit algorithm is able to pack data when compared to the first-fit algoritm. Our solution will be correct if we are able to show that this is the case since we know that it can be shown that the best-fit algorithm indeed packs more densly in theory. We are developing a method of comparing the fragmentation the first-fit algorithm to the best-fit algorithm that we implemented. By analyzing the fragmentation, we can tell if our best-fit implementation is correct because best-fit will result in lower fragmentation than first-fit. We created a test file that
 
 \paragraph{What We Learned}
-There were a number of key things that we learned by doing this assignment. By actually working hands-on with the memory management, we were able to get a better understanding of how memory allocation works. We also learned a lot about how system calls work in the Linux Kernel. Another key concept we gained more experience in is kernal debugging.
+There were a number of key things that we learned by doing this assignment. By actually working hands-on with the memory management, we were able to get a better understanding of how memory allocation works. We also learned a lot about how system calls work in the Linux Kernel. Another important concept we gained more experience in is kernal debugging. GDB is a very powerful debugger and this assignement forced us to dive deeper into all the capabilities that it provides.
 
 \paragraph{TA Steps to Follow}
 
