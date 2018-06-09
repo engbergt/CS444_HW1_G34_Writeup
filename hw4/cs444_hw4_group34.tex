@@ -38,6 +38,11 @@ To complete this assignement we have decided to first figure out how we want to 
   Date: & Fri Jun 8 12:42:59 2018 -0700 \\ \cline{2-2}
   Message: & Slob updated to be best-fit \\
   \hline
+  Commit: & bb11a0552b9f1d290559f553db6017e34007e4ad \\ \cline{2-2}
+  Author: & Tarren Engberg <engbergt@os2.engr.oregonstate.edu> \\ \cline{2-2}
+  Date: & Fri Jun 8 21:03:04 2018 -0700 \\ \cline{2-2}
+  Message: & using best fit \\
+  \hline
 \end{tabular}
 }
 
@@ -57,33 +62,24 @@ We believe the main purpose of this assignment is to first get familiarity with 
 Our approach to this assignment is to start with the slob.c file and modify the slob alloc section to be able to switch the best-fit and firs-fit algorithms depending on a definition we define. When we have tested and found that the new algoritm is infact working, we will add the system call to measure the fragmentation difference and record the difference between the two methods to hopefully find that best-fit packs more densly.
 
 \paragraph{Solution Correctness}
-The solution correctness of this assignment will be measured by how much more densly the best-fit algorithm is able to pack data when compared to the first-fit algoritm. Our solution will be correct if we are able to show that this is the case since we know that it can be shown that the best-fit algorithm indeed packs more densly in theory. We are developing a method of comparing the fragmentation the first-fit algorithm to the best-fit algorithm that we implemented. By analyzing the fragmentation, we can tell if our best-fit implementation is correct because best-fit will result in lower fragmentation than first-fit. We created a test file that
+The solution correctness of this assignment will be measured by how much more densly the best-fit algorithm is able to pack data when compared to the first-fit algoritm. Our solution will be correct if we are able to show that this is the case since we know that it can be shown that the best-fit algorithm indeed packs more densly in theory. We are developing a method of comparing the fragmentation the first-fit algorithm to the best-fit algorithm that we implemented. By analyzing the fragmentation, we can tell if our best-fit implementation is correct because best-fit will result in lower fragmentation than first-fit. We created a test program that allocates memory so that we can compare the efficiency of first-fit and best-fit.
 
 \paragraph{What We Learned}
-There were a number of key things that we learned by doing this assignment. By actually working hands-on with the memory management, we were able to get a better understanding of how memory allocation works. We also learned a lot about how system calls work in the Linux Kernel. Another important concept we gained more experience in is kernal debugging. GDB is a very powerful debugger and this assignement forced us to dive deeper into all the capabilities that it provides.
+There were a number of key things that we learned by doing this assignment. By actually working hands-on with the memory management, we were able to get a better understanding of how memory allocation works. By implementing the best-fit algorithm, it became extremely obvious to us why best-fit is not a great choice. It is painfully slow compared to first-fit. We also learned a lot about how system calls work in the Linux Kernel. Another important concept we gained more experience in is kernal debugging. GDB is a very powerful debugger and this assignement forced us to dive deeper into all the capabilities that it provides.
 
 \paragraph{TA Steps to Follow}
 
 
 \begin{enumerate}
+  \item Apply vanilla.patch
 	\item \texttt{source envivronment-setup-i586-poky-linux.csh}
 	\item \texttt{monster}
-	\item In the VM: user name=root
-	\item \texttt{scp [your remote ssh address]:[your filepath]/linux-yocto-3.19/drivers/block/sbd.ko ./}
-	\item \texttt{./insmod}
-	\item \texttt{./mkfs}
-	\item \texttt{./mount}
-	\item \texttt{cd /mnt/ourmount/}
-	\item \texttt{vi hi}
-	\item Write some data to hi in vi
-	\item Save changes to hi and wait for a something like "enc'ing ctxt: ptxt was: " to print to console (this indicates encryption is working)
-	\item \texttt{vi hi} again to see that it has been encrypted
-	\item \texttt{less -f /dev/sbd0}
-	\item \texttt{P 800} (takes you a bit below the offset to to see the decrypted data)
+  \item \texttt{./tester}
+  \item Apply joshIsHungary.patch
+	\item \texttt{monster}
+  \item \texttt{./tester}
+  \item Compare values from tester to see that the best-fit (joshIsHungary) algorithm results in less fragmentation compared to first-fit (vanilla).
   \end{enumerate}
-  
-  NOTE: steps 10-14 are necessary since accessing 'hi' through vi will load cached memory (meaning our altered disk read which holds the decryption function won't get called); however, less must query our filesystem normally, meaning sbd\_request will be called, leading to an instantiation of sbd\_transfer, where our decryption function lives.
-
 
 
 \end{document}
